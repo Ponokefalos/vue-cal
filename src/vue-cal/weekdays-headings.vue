@@ -72,6 +72,7 @@ export default {
           } : {})
         }
       })
+      debugger
       return headings
     },
     cellWidth () {

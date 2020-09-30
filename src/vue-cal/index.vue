@@ -241,6 +241,7 @@ export default {
     specialHours: { type: Object, default: () => ({}) },
     splitDays: { type: Array, default: () => [] },
     startWeekOnSunday: { type: Boolean, default: false },
+    startingDayOfWeek: { type: Number, default: 0 },
     stickySplitLabels: { type: Boolean, default: false },
     time: { type: Boolean, default: true },
     timeCellHeight: { type: Number, default: 40 }, // In pixels.
@@ -366,6 +367,26 @@ export default {
             this.utils.date.updateTexts(this.texts)
           })
       }
+    },
+    getDaysOfWeek (days) {
+      let index = this.startingDayOfWeek - 1
+      const end = this.startingDayOfWeek
+      const temp = []
+      let loop = true;
+      while (loop) {
+        // if (index === this.startingDayOfWeek) {
+        //   temp.push(days[index])
+        // }
+        // else {
+        //   temp.push(days[index])
+        // }
+        temp.push(days[index])
+
+        index = index === days.length - 1 ? 0 : index + 1
+        temp.push(days[index])
+        // loop = 
+      }
+      return temp
     },
 
     /**
@@ -1347,8 +1368,21 @@ export default {
       weekDays = weekDays.slice(0).map((day, i) => ({
         label: day,
         ...(weekDaysShort.length ? { short: weekDaysShort[i] } : {}),
-        hide: (this.hideWeekends && i >= 5) || (this.hideWeekdays.length && this.hideWeekdays.includes(i + 1))
+        hide: (this.hideWeekends && i >= 5) || (this.hideWeekdays.length && this.hideWeekdays.includes(i + 1)),
+        index: i + 1
       }))
+      if (this.startingDayOfWeek > 0) {
+        // weekDays = this.getDaysOfWeek(weekDays)
+        weekDays = [
+          {label: "Thursday", hide: 0, index: 4},
+            {label: "Friday", hide: 0, index: 5},
+          {label: "Saturday", hide: 0, index: 6},
+          {label: "Sunday", hide: 0, index: 7},
+           {label: "Monday", hide: 0, index: 1},
+          {label: "Tuesday", hide: 0, index: 2},
+          {label: "Wednesday", hide: 0, index: 3} 
+          ]
+      }
 
       if (this.startWeekOnSunday) weekDays.unshift(weekDays.pop())
 
@@ -1510,7 +1544,7 @@ export default {
           todayFound = false
           const firstDayOfWeek = this.view.startDate
           const weekDays = this.weekDays
-
+debugger
           cells = weekDays.map((cell, i) => {
             const startDate = ud.addDays(firstDayOfWeek, i)
             const endDate = new Date(startDate)

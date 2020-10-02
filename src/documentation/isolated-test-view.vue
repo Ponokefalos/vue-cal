@@ -7,7 +7,7 @@ div.test-view
     editable-events
     :split-days="daySplits"
     sticky-split-labels
-    :startWeekOnSunday="true"
+    active-view="month"
     :startingDayOfWeek="3"
     :on-event-click="() => (clicksCount++)")
   p clicks: {{clicksCount}}

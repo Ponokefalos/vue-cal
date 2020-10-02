@@ -130,10 +130,7 @@ export default class DateUtils {
   getPreviousFirstDayOfWeek (date = null, weekStartsOnSunday, startingDayOfWeek = null) {
     const prevFirstDayOfWeek = (date && new Date(date.valueOf())) || new Date()
     const dayModifier = weekStartsOnSunday ? 7 : 6
-    const test = dayModifier - startingDayOfWeek;
     prevFirstDayOfWeek.setDate((prevFirstDayOfWeek.getDate() - (prevFirstDayOfWeek.getDay() + dayModifier) % 7) + startingDayOfWeek || 0)
-                                        // 1                               4 + 6 % 7
-    // 01/10/2020 - today => result: 28/09/2020
     return prevFirstDayOfWeek
   }
 

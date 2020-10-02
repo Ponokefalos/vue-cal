@@ -368,25 +368,22 @@ export default {
           })
       }
     },
-    getDaysOfWeek(days) {
-      let index = this.startingDayOfWeek;
-      const end = this.startingDayOfWeek - 1;
-      const temp = [];
+    getDaysOfWeek (days) {
+      let index = this.startingDayOfWeek
+      const end = this.startingDayOfWeek - 1
+      const temp = []
       while (index !== end) {
         if (index === this.startingDayOfWeek) {
           temp.push(days[index])
-        } else {
+        }
+        else {
           temp.push(days[index])
         }
 
         index = index === days.length - 1 ? 0 : index + 1
-        /*     console.log('index', index);
-            
-            console.log('temp', temp);
-            console.log('----'); */
       }
       temp.push(days[index])
-      return temp;
+      return temp
     },
 
     /**
@@ -1373,15 +1370,6 @@ export default {
       }))
       if (this.startingDayOfWeek > 0) {
         weekDays = this.getDaysOfWeek(weekDays)
-        // weekDays = [
-        //   {label: "Thursday", hide: 0, index: 4},
-        //     {label: "Friday", hide: 0, index: 5},
-        //   {label: "Saturday", hide: 0, index: 6},
-        //   {label: "Sunday", hide: 0, index: 7},
-        //    {label: "Monday", hide: 0, index: 1},
-        //   {label: "Tuesday", hide: 0, index: 2},
-        //   {label: "Wednesday", hide: 0, index: 3} 
-        //   ]
       }
 
       if (this.startWeekOnSunday) weekDays.unshift(weekDays.pop())
@@ -1513,7 +1501,8 @@ export default {
 
           // Create 42 cells (6 rows x 7 days) and populate them with days.
           cells = Array.apply(null, Array(42)).map((cell, i) => {
-            const startDate = ud.addDays(firstCellDate, i)
+            const dayModifier = this.startingDayOfWeek || 0
+            const startDate = ud.addDays(firstCellDate, i +  dayModifier)
             const endDate = new Date(startDate)
             endDate.setHours(23, 59, 59, 0) // End at 23:59:59.
             // To increase performance skip checking isToday if today already found.
@@ -1544,7 +1533,6 @@ export default {
           todayFound = false
           const firstDayOfWeek = this.view.startDate
           const weekDays = this.weekDays
-debugger
           cells = weekDays.map((cell, i) => {
             const startDate = ud.addDays(firstDayOfWeek, i)
             const endDate = new Date(startDate)
